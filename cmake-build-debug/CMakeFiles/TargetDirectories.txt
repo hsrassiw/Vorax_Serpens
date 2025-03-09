@@ -1,0 +1,3 @@
+D:/Clion/Vorax_Serpens/cmake-build-debug/CMakeFiles/Vorax_Serpens.dir
+D:/Clion/Vorax_Serpens/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Clion/Vorax_Serpens/cmake-build-debug/CMakeFiles/rebuild_cache.dir
