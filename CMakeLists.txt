@@ -16,10 +16,10 @@ set(SDL2_TTF_DIR "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf")
 # ===============================
 # Tìm và liên kết SDL2
 # ===============================
-find_package(SDL2 REQUIRED CONFIG PATHS ${SDL2_DIR})
-find_package(SDL2_image REQUIRED CONFIG PATHS ${SDL2_IMAGE_DIR})
-find_package(SDL2_mixer REQUIRED CONFIG PATHS ${SDL2_MIXER_DIR})
-find_package(SDL2_ttf REQUIRED CONFIG PATHS ${SDL2_TTF_DIR})
+#find_package(SDL2 REQUIRED CONFIG PATHS ${SDL2_DIR})
+#find_package(SDL2_image REQUIRED CONFIG PATHS ${SDL2_IMAGE_DIR})
+#find_package(SDL2_mixer REQUIRED CONFIG PATHS ${SDL2_MIXER_DIR})
+#find_package(SDL2_ttf REQUIRED CONFIG PATHS ${SDL2_TTF_DIR})
 
 # ===============================
 # Tự động lấy tất cả file .cpp trong src/
@@ -28,13 +28,20 @@ file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Tạo executable
 add_executable(Vorax_Serpens ${SRC_FILES}
-#        src/player.cpp
-#        src/player.h
-#        src/monster.cpp
-#        src/monster.h
-#        src/projectile.cpp
-#        src/projectile.h
-        scr/main.cpp)
+        src/main.cpp
+        src/Game.cpp
+        src/Game.hpp
+        src/Snake.cpp
+        src/Snake.hpp
+        src/Food.cpp
+        src/Food.hpp
+        src/Renderer.cpp
+        src/Renderer.hpp
+        src/Config.cpp
+        src/Config.hpp
+        src/Controls.cpp
+        src/Controls.hpp
+)
 
 # ===============================
 # Thêm đường dẫn include SDL2

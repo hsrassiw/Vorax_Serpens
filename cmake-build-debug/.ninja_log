@@ -1,1 +1,24 @@
 # ninja log v6
+40	166	7632483071314740	CMakeFiles/Vorax_Serpens.dir/scr/Renderer.cpp.obj	8793ccfff5302c2f
+31	117	7632487130107915	CMakeFiles/Vorax_Serpens.dir/scr/Config.cpp.obj	db1d6ab17dac566d
+1279	1508	7633057042607837	Vorax_Serpens.exe	138364637b767366
+28	168	7632483071199550	CMakeFiles/Vorax_Serpens.dir/scr/Food.cpp.obj	1c126c9bfcaf166e
+22	1141	7632487130024679	CMakeFiles/Vorax_Serpens.dir/scr/Snake.cpp.obj	daae64c64294d70d
+6	1051	7632487129856930	CMakeFiles/Vorax_Serpens.dir/scr/main.cpp.obj	dfd37f3a1ee99464
+43	1237	7632486266742970	CMakeFiles/Vorax_Serpens.dir/scr/Controls.cpp.obj	59c3f7d8929b1cc4
+15	1100	7632487129950217	CMakeFiles/Vorax_Serpens.dir/scr/Game.cpp.obj	9eca0e6532e91218
+3	374	7633070756235774	build.ninja	5cf85e2d0e32fb58
+8	104	7633057029903563	CMakeFiles/Vorax_Serpens.dir/src/Config.cpp.obj	17ead543080ba0c5
+33	126	7633057030146047	CMakeFiles/Vorax_Serpens.dir/src/Renderer.cpp.obj	f2324e6dc8f5e695
+16	124	7633057029984603	CMakeFiles/Vorax_Serpens.dir/src/Food.cpp.obj	b49587aefdb723f
+14	93	7632492460535126	CMakeFiles/Vorax_Serpens.dir/src/Controls.cpp.obj	f717926d056d1a0d
+24	123	7633057030059828	CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj	1ce584f226a38e1c
+56	1279	7633057030381605	CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj	3a9cde87cca926cf
+44	135	7633057030262740	CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj	d79c2d2f22195a20
+2	324	7633070756235774	build.ninja	5cf85e2d0e32fb58
+6	1144	7633070756675729	CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj	3a9cde87cca926cf
+1144	1341	7633070768057010	Vorax_Serpens.exe	138364637b767366
+6	1236	7633071563847543	CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj	3a9cde87cca926cf
+1237	1421	7633071576144180	Vorax_Serpens.exe	138364637b767366
+6	1421	7633071992873035	CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj	3a9cde87cca926cf
+1422	1658	7633072007017197	Vorax_Serpens.exe	138364637b767366
