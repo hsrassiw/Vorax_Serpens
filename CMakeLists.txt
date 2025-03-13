@@ -39,8 +39,6 @@ add_executable(Vorax_Serpens ${SRC_FILES}
         src/Renderer.hpp
         src/Config.cpp
         src/Config.hpp
-        src/Controls.cpp
-        src/Controls.hpp
 )
 
 # ===============================
