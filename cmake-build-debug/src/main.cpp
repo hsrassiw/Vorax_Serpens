@@ -1,50 +1,27 @@
 #include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <SDL_image.h>
-#include<iostream>
 #include "Renderer.hpp"
 #include "Snake.hpp"
 #include "Food.hpp"
+#include "Game.hpp"
 
 int main(int argc, char* argv[]) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        std::cerr << "SDL Initialization failed: " << SDL_GetError() << std::endl;
-        return 1;
-    }
-
-    SDL_Window* window = SDL_CreateWindow("Vorax Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Window* window = SDL_CreateWindow("Vorax_Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                           800, 600, SDL_WINDOW_SHOWN);
-    if (!window) {
-        std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
     Renderer renderer(window);
-    if (!renderer.getRenderer()) {
-        std::cerr << "Renderer creation failed!" << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
-
-    Snake snake(400, 300, 20, 5);
-    Food food(20);
-    food.generate(800, 600, snake.getBody());
+    Game game(800, 600, 20);
 
     bool quit = false;
     SDL_Event event;
     while (!quit) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) quit = true;
+            game.handleInput(event);
         }
 
-        renderer.clear();
-        snake.draw(renderer.getRenderer());
-        food.draw(renderer.getRenderer());
-        renderer.present();
-        SDL_Delay(16);
+        game.update();
+        game.render(renderer);
+        SDL_Delay(100);
     }
 
     SDL_DestroyWindow(window);
