@@ -1,23 +1,21 @@
 #include <SDL.h>
-#include <iostream>
+#include<iostream>
 #include "Renderer.hpp"
+#include "Snake.hpp"
 
 int main(int argc, char* argv[]) {
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cerr << "SDL Initialization failed: " << SDL_GetError() << std::endl;
         return 1;
     }
 
-
-    SDL_Window* window = SDL_CreateWindow("Vorax Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    SDL_Window* window = SDL_CreateWindow("Vorax_Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                           800, 600, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return 1;
     }
-
 
     Renderer renderer(window);
     if (!renderer.getRenderer()) {
@@ -27,6 +25,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    Snake snake(400, 300, 20, 2);
 
     bool quit = false;
     SDL_Event event;
@@ -36,13 +35,12 @@ int main(int argc, char* argv[]) {
         }
 
         renderer.clear();
+        snake.draw(renderer.getRenderer());
         renderer.present();
         SDL_Delay(16);
     }
 
-
     SDL_DestroyWindow(window);
     SDL_Quit();
-
     return 0;
 }
