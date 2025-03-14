@@ -1,7 +1,11 @@
 #include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
+#include <SDL_image.h>
 #include<iostream>
 #include "Renderer.hpp"
 #include "Snake.hpp"
+#include "Food.hpp"
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -9,7 +13,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    SDL_Window* window = SDL_CreateWindow("Vorax_Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    SDL_Window* window = SDL_CreateWindow("Vorax Serpens", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                           800, 600, SDL_WINDOW_SHOWN);
     if (!window) {
         std::cerr << "Window creation failed: " << SDL_GetError() << std::endl;
@@ -25,7 +29,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    Snake snake(400, 300, 20, 2);
+    Snake snake(400, 300, 20, 5);
+    Food food(20);
+    food.generate(800, 600, snake.getBody());
 
     bool quit = false;
     SDL_Event event;
@@ -36,6 +42,7 @@ int main(int argc, char* argv[]) {
 
         renderer.clear();
         snake.draw(renderer.getRenderer());
+        food.draw(renderer.getRenderer());
         renderer.present();
         SDL_Delay(16);
     }

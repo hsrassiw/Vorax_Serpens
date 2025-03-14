@@ -15,6 +15,7 @@ public:
     bool checkCollision(const SDL_Point& foodPos) const;
     bool checkSelfCollision() const;
     bool checkWallCollision(int screenWidth, int screenHeight) const;
+    std::vector<SDL_Point> getBody() const;
 
 private:
     std::vector<SDL_Point> body;

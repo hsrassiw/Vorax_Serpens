@@ -49,31 +49,15 @@ cmake_ninja_workdir = D$:/Clion/Vorax_Serpens/cmake-build-debug/
 
 build cmake_object_order_depends_target_Vorax_Serpens: phony || .
 
-build CMakeFiles/Vorax_Serpens.dir/src/Config.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Config.cpp || cmake_object_order_depends_target_Vorax_Serpens
+build CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/main.cpp || cmake_object_order_depends_target_Vorax_Serpens
   DEFINES = -DSDL_MAIN_HANDLED
-  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Config.cpp.obj.d
+  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\main.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
   OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
   OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
 
-build CMakeFiles/Vorax_Serpens.dir/src/Controls.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Controls.cpp || cmake_object_order_depends_target_Vorax_Serpens
-  DEFINES = -DSDL_MAIN_HANDLED
-  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Controls.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
-  OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
-  OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
-
-build CMakeFiles/Vorax_Serpens.dir/src/Food.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Food.cpp || cmake_object_order_depends_target_Vorax_Serpens
-  DEFINES = -DSDL_MAIN_HANDLED
-  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Food.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
-  OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
-  OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
-
-build CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Game.cpp || cmake_object_order_depends_target_Vorax_Serpens
+build CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/Game.cpp || cmake_object_order_depends_target_Vorax_Serpens
   DEFINES = -DSDL_MAIN_HANDLED
   DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Game.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
@@ -81,15 +65,7 @@ build CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj: CXX_COMPILER__Vorax_Serpens
   OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
   OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
 
-build CMakeFiles/Vorax_Serpens.dir/src/Renderer.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Renderer.cpp || cmake_object_order_depends_target_Vorax_Serpens
-  DEFINES = -DSDL_MAIN_HANDLED
-  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Renderer.cpp.obj.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
-  OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
-  OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
-
-build CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/Snake.cpp || cmake_object_order_depends_target_Vorax_Serpens
+build CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/Snake.cpp || cmake_object_order_depends_target_Vorax_Serpens
   DEFINES = -DSDL_MAIN_HANDLED
   DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Snake.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
@@ -97,9 +73,25 @@ build CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj: CXX_COMPILER__Vorax_Serpen
   OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
   OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
 
-build CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/src/main.cpp || cmake_object_order_depends_target_Vorax_Serpens
+build CMakeFiles/Vorax_Serpens.dir/src/Food.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/Food.cpp || cmake_object_order_depends_target_Vorax_Serpens
   DEFINES = -DSDL_MAIN_HANDLED
-  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\main.cpp.obj.d
+  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Food.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
+  OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
+  OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
+
+build CMakeFiles/Vorax_Serpens.dir/src/Renderer.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/Renderer.cpp || cmake_object_order_depends_target_Vorax_Serpens
+  DEFINES = -DSDL_MAIN_HANDLED
+  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Renderer.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
+  OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
+  OBJECT_FILE_DIR = CMakeFiles\Vorax_Serpens.dir\src
+
+build CMakeFiles/Vorax_Serpens.dir/src/Config.cpp.obj: CXX_COMPILER__Vorax_Serpens_unscanned_Debug D$:/Clion/Vorax_Serpens/cmake-build-debug/src/Config.cpp || cmake_object_order_depends_target_Vorax_Serpens
+  DEFINES = -DSDL_MAIN_HANDLED
+  DEP_FILE = CMakeFiles\Vorax_Serpens.dir\src\Config.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2 -ID:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2
   OBJECT_DIR = CMakeFiles\Vorax_Serpens.dir
@@ -113,7 +105,7 @@ build CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj: CXX_COMPILER__Vorax_Serpens
 #############################################
 # Link the executable Vorax_Serpens.exe
 
-build Vorax_Serpens.exe: CXX_EXECUTABLE_LINKER__Vorax_Serpens_Debug CMakeFiles/Vorax_Serpens.dir/src/Config.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Controls.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Food.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Renderer.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj
+build Vorax_Serpens.exe: CXX_EXECUTABLE_LINKER__Vorax_Serpens_Debug CMakeFiles/Vorax_Serpens.dir/src/main.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Game.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Snake.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Food.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Renderer.cpp.obj CMakeFiles/Vorax_Serpens.dir/src/Config.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lSDL2  -lSDL2_image  -lSDL2_mixer  -lSDL2_ttf  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   LINK_PATH = -LD:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/lib   -LD:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/lib   -LD:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/lib   -LD:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/lib

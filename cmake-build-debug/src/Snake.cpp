@@ -14,3 +14,6 @@ void Snake::draw(SDL_Renderer* renderer) const {
         SDL_RenderFillRect(renderer, &rect);
     }
 }
+std::vector<SDL_Point> Snake::getBody() const {
+    return body;
+}
