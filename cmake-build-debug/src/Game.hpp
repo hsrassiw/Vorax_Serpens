@@ -19,6 +19,7 @@ private:
     Food food;
     int screenWidth, screenHeight;
     bool gameOver;
+    int score;
 };
 
 #endif // GAME_HPP

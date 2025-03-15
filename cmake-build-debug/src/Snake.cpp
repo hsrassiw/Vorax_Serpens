@@ -59,3 +59,7 @@ bool Snake::checkWallCollision(int screenWidth, int screenHeight) const {
     const SDL_Point& head = body.front();
     return (head.x < 0 || head.x >= screenWidth || head.y < 0 || head.y >= screenHeight);
 }
+
+void Snake::grow() {
+    body.push_back(body.back());
+}
