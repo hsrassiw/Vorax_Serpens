@@ -16,6 +16,8 @@ public:
     bool checkSelfCollision() const;
     bool checkWallCollision(int screenWidth, int screenHeight) const;
     std::vector<SDL_Point> getBody() const;
+    SDL_Point getHeadPosition() const;
+
 
 private:
     std::vector<SDL_Point> body;

@@ -40,3 +40,22 @@ void Snake::changeDirection(Direction newDirection) {
 std::vector<SDL_Point> Snake::getBody() const {
     return body;
 }
+
+SDL_Point Snake::getHeadPosition() const {
+    return body.front();
+}
+
+bool Snake::checkSelfCollision() const {
+    const SDL_Point& head = body.front();
+    for (size_t i = 1; i < body.size(); ++i) {
+        if (head.x == body[i].x && head.y == body[i].y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Snake::checkWallCollision(int screenWidth, int screenHeight) const {
+    const SDL_Point& head = body.front();
+    return (head.x < 0 || head.x >= screenWidth || head.y < 0 || head.y >= screenHeight);
+}

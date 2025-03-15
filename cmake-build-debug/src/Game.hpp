@@ -12,10 +12,13 @@ public:
     void handleInput(const SDL_Event& event);
     void update();
     void render(Renderer& renderer) const;
+    bool isGameOver() const;
 
 private:
     Snake snake;
     Food food;
+    int screenWidth, screenHeight;
+    bool gameOver;
 };
 
 #endif // GAME_HPP

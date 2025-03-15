@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game(int w, int h, int size)
-    : snake(w / 2, h / 2, size, 5), food(size) {
+    : snake(w / 2, h / 2, size, 5), food(size),screenWidth(w), screenHeight(h), gameOver(false) {
     food.generate(w, h, snake.getBody());
 }
 
@@ -14,7 +14,9 @@ void Game::handleInput(const SDL_Event& event) {
 }
 
 void Game::update() {
+    if (gameOver) return;
     snake.move();
+    if (snake.checkSelfCollision() || snake.checkWallCollision(screenWidth, screenHeight)) gameOver = true;
 }
 
 void Game::render(Renderer& renderer) const {
@@ -23,3 +25,8 @@ void Game::render(Renderer& renderer) const {
     snake.draw(renderer.getRenderer());
     renderer.present();
 }
+
+bool Game::isGameOver() const {
+    return gameOver;
+}
+
