@@ -13,6 +13,7 @@ public:
     void update();
     void render(Renderer& renderer) const;
     bool isGameOver() const;
+    void reset();
 
 private:
     Snake snake;
@@ -20,6 +21,7 @@ private:
     int screenWidth, screenHeight;
     bool gameOver;
     int score;
+    int highScore;
 };
 
 #endif // GAME_HPP

@@ -22,13 +22,7 @@ int main(int argc, char* argv[]) {
         }
 
         game.update();
-
         game.render(renderer);
-
-        if (game.isGameOver()) {
-            SDL_Delay(200);
-            quit = true;
-        }
 
         SDL_Delay(100);
     }
