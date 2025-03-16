@@ -45,6 +45,10 @@ SDL_Point Snake::getHeadPosition() const {
     return body.front();
 }
 
+bool Snake::checkCollision(const SDL_Point &foodPos) const {
+    return body.front().x == foodPos.x && body.front().y == foodPos.y;
+}
+
 bool Snake::checkSelfCollision() const {
     const SDL_Point& head = body.front();
     for (size_t i = 1; i < body.size(); ++i) {

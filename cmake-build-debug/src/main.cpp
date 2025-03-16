@@ -1,7 +1,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "Renderer.hpp"
-#include "Snake.hpp"
 #include "Food.hpp"
 #include "Game.hpp"
 

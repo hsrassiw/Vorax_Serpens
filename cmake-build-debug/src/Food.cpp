@@ -1,6 +1,6 @@
 #include "Food.hpp"
 
-Food::Food(int size) : size(size), position(), rng(std::random_device{}()) {}
+Food::Food(int size) : position(), size(size), rng(std::random_device{}()) {}
 
 void Food::generate(int screenWidth, int screenHeight, const std::vector<SDL_Point>& snakeBody) {
     std::uniform_int_distribution<int> distX(0, (screenWidth / size) - 1);

@@ -4,15 +4,15 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Renderer.hpp"
-#include "Config.hpp"
+
 
 class Game {
 public:
     Game(int w, int h, int size);
     void handleInput(const SDL_Event& event);
     void update();
-    void render(Renderer& renderer) const;
-    bool isGameOver() const;
+    void render(const Renderer& renderer) const;
+    [[nodiscard]] bool isGameOver() const;
     void reset();
 
 private:
@@ -21,7 +21,7 @@ private:
     int screenWidth, screenHeight;
     bool gameOver;
     int score;
-    int highScore;
+    int highScore{};
 };
 
 #endif // GAME_HPP

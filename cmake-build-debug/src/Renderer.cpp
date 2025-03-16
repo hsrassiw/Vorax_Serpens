@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include <SDL_ttf.h>
 #include <iostream>
 
 Renderer::Renderer(SDL_Window* window) {
