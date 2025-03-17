@@ -18,6 +18,7 @@ public:
     [[nodiscard]] std::vector<SDL_Point> getBody() const;
     [[nodiscard]] SDL_Point getHeadPosition() const;
     void grow();
+    int getSize() const { return size; }
 
 
 private:

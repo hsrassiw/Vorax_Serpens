@@ -1,4 +1,7 @@
 #include "Game.hpp"
+#include "Renderer.hpp"
+#include "Snake.hpp"
+#include <SDL_ttf.h>
 #include "Config.hpp"
 
 
@@ -45,8 +48,18 @@ void Game::render(const Renderer& renderer) const {
     renderer.renderText("High Score: " + std::to_string(highScore), 10, 40, Config :: TEXT_COLOR);
 
     if (gameOver) {
-        renderer.renderText("Game Over! Press SPACE to restart", screenWidth / 4, screenHeight / 2, Config :: TEXT_COLOR);
+        int textWidth, textHeight;
+
+
+        TTF_SizeText(renderer.getFont(), "Game Over! Press SPACE to restart", &textWidth, &textHeight);
+
+
+        int x = (screenWidth - textWidth) / 2;
+        int y = (screenHeight - textHeight) / 2;
+
+        renderer.renderText("Game Over! Press SPACE to restart", x, y, Config::TEXT_COLOR);
     }
+
 
     renderer.present();
 }
@@ -56,9 +69,18 @@ bool Game::isGameOver() const {
 }
 
 void Game::reset() {
-    snake = Snake(screenWidth / 2, screenHeight / 2, 20, 5);
+    int newSize = snake.getSize();
+
+
+    int startX = (screenWidth / 2) - ((screenWidth / 2) % newSize);
+    int startY = (screenHeight / 2) - ((screenHeight / 2) % newSize);
+
+    snake = Snake(startX, startY, newSize, 5);
+    food.setSize(newSize);
     food.generate(screenWidth, screenHeight, snake.getBody());
+
     score = 0;
     gameOver = false;
 }
+
 

@@ -15,6 +15,7 @@ public:
     [[nodiscard]] bool isGameOver() const;
     void reset();
 
+
 private:
     Snake snake;
     Food food;
@@ -24,4 +25,4 @@ private:
     int highScore{};
 };
 
-#endif // GAME_HPP
+#endif

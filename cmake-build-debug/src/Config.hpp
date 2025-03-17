@@ -6,8 +6,8 @@
 namespace Config {
 
 
-    constexpr int SCREEN_WIDTH = 640;
-    constexpr int SCREEN_HEIGHT = 480;
+    constexpr int SCREEN_WIDTH = 1000;
+    constexpr int SCREEN_HEIGHT = 800;
     constexpr int CELL_SIZE = 20;
     constexpr int DEFAULT_SNAKE_LENGTH = 3;
     constexpr int INITIAL_SNAKE_SPEED = 100;

@@ -1,4 +1,5 @@
 #include "Config.hpp"
+#include "Game.hpp"
 
 namespace Config {
 

@@ -4,10 +4,12 @@
 
 Renderer::Renderer(SDL_Window* window) {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) std::cerr << "Renderer creation failed: " << SDL_GetError() << std::endl;
+    font = TTF_OpenFont("assets/fonts/arial.ttf", 24);
 }
 
+
 Renderer::~Renderer() {
+    if (font) TTF_CloseFont(font);
     if (renderer) SDL_DestroyRenderer(renderer);
 }
 
@@ -24,16 +26,20 @@ void Renderer::present() const {
 
 
 void Renderer::renderText(const std::string& text, int x, int y, SDL_Color color) const {
-    TTF_Font* font = TTF_OpenFont("assets/fonts/arial.ttf", 24);
     if (!font) return;
 
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (!textSurface) return;
+
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    if (!texture) {
+        SDL_FreeSurface(textSurface);
+        return;
+    }
 
     SDL_Rect textRect = {x, y, textSurface->w, textSurface->h};
     SDL_RenderCopy(renderer, texture, nullptr, &textRect);
 
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
 }
