@@ -1,65 +1,106 @@
 #include "Game.hpp"
-#include "Renderer.hpp"
-#include "Snake.hpp"
-#include <SDL_ttf.h>
 #include "Config.hpp"
-
+#include "Renderer.hpp"
+#include <string>
+#include <iostream>
 
 Game::Game(int w, int h, int size)
-    : snake(w / 2, h / 2, size, 5), food(size),screenWidth(w), screenHeight(h), gameOver(false), score(0) {
-    food.generate(w, h, snake.getBody());
+        : screenWidth(w),
+          screenHeight(h),
+          cellSize(size),
+          snake(calculateStartPosition().x, calculateStartPosition().y, size, Config::DEFAULT_SNAKE_LENGTH),
+          food(size),
+          gameOver(false),
+          score(0),
+          highScore(0)
+{
+    food.generate(screenWidth, screenHeight, snake.getBody());
+    std::cout << "Game Initialized. Snake at (" << snake.getHeadPosition().x << ", " << snake.getHeadPosition().y << ")" << std::endl;
+    std::cout << "Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
 }
+
+SDL_Point Game::calculateStartPosition() const {
+    int startGridX = (screenWidth / cellSize) / 2;
+    int startGridY = (screenHeight / cellSize) / 2;
+    return {startGridX * cellSize, startGridY * cellSize};
+}
+
 
 void Game::handleInput(const SDL_Event& event) {
     Config::Controls control = Config::handleInput(event);
-    if (gameOver && control == Config::Controls::RESTART) {
+
+    if (control == Config::Controls::RESTART && gameOver) {
         reset();
-    }
-    else if (control != Config::Controls::NONE) {
-        snake.changeDirection(static_cast<Snake::Direction>(control));
+    } else if (!gameOver && control != Config::Controls::NONE && control != Config::Controls::RESTART) {
+        Snake::Direction newDir;
+        bool directionChanged = true;
+
+        switch (control) {
+            case Config::Controls::UP:    newDir = Snake::Direction::UP; break;
+            case Config::Controls::DOWN:  newDir = Snake::Direction::DOWN; break;
+            case Config::Controls::LEFT:  newDir = Snake::Direction::LEFT; break;
+            case Config::Controls::RIGHT: newDir = Snake::Direction::RIGHT; break;
+            default:
+                directionChanged = false;
+                break;
+        }
+
+        if (directionChanged) {
+            snake.changeDirection(newDir);
+        }
     }
 }
 
 void Game::update() {
-    if (gameOver) return;
+    if (gameOver) {
+        return;
+    }
+
     snake.move();
 
-    if (snake.checkSelfCollision() || snake.checkWallCollision(screenWidth, screenHeight)) {
-        if (score > highScore) {
-            highScore = score;
-        }
+    if (snake.checkWallCollision(screenWidth, screenHeight)) {
+        std::cout << "Collision: Wall" << std::endl;
+        gameOver = true;
+    }
+    else if (snake.checkSelfCollision()) {
+        std::cout << "Collision: Self" << std::endl;
         gameOver = true;
     }
 
-    if (snake.checkCollision(food.getPosition())) {
+    if (gameOver) {
+        if (score > highScore) {
+            highScore = score;
+            std::cout << "New High Score: " << highScore << std::endl;
+        }
+        return;
+    }
+
+    if (snake.checkFoodCollision(food.getPosition())) {
+        std::cout << "Collision: Food" << std::endl;
+        score++;
         snake.grow();
         food.generate(screenWidth, screenHeight, snake.getBody());
-        score++;
+        std::cout << "Score: " << score << ", New Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
     }
-
 }
 
-void Game::render(const Renderer& renderer) const {
+void Game::render(Renderer& renderer) const {
     renderer.clear();
-    food.draw(renderer.getRenderer());
-    snake.draw(renderer.getRenderer());
 
-    renderer.renderText("Score: " + std::to_string(score), 10, 10, Config :: TEXT_COLOR);
-    renderer.renderText("High Score: " + std::to_string(highScore), 10, 40, Config :: TEXT_COLOR);
+    food.draw(renderer.getSDLRenderer());
+
+    snake.draw(renderer.getSDLRenderer());
+
+    renderer.renderText("Score: " + std::to_string(score), 10, 10, Config::TEXT_COLOR);
+    renderer.renderText("High Score: " + std::to_string(highScore), 10, 10 + Config::FONT_SIZE + 5, Config::TEXT_COLOR);
 
     if (gameOver) {
-        int textWidth, textHeight;
-
-
-        TTF_SizeText(renderer.getFont(), "Game Over! Press SPACE to restart", &textWidth, &textHeight);
-
-
-        int x = (screenWidth - textWidth) / 2;
-        int y = (screenHeight - textHeight) / 2;
-
-        renderer.renderText("Game Over! Press SPACE to restart", x, y, Config::TEXT_COLOR);
+        std::string gameOverText = "Game Over! Press SPACE to restart";
+        SDL_Point textSize = renderer.getTextSize(gameOverText);
+        int x = (screenWidth - textSize.x) / 2;
+        int y = (screenHeight - textSize.y) / 2;
+        renderer.renderText(gameOverText, x, y, Config::GAMEOVER_TEXT_COLOR);
     }
-
 
     renderer.present();
 }
@@ -69,18 +110,13 @@ bool Game::isGameOver() const {
 }
 
 void Game::reset() {
-    int newSize = snake.getSize();
+    std::cout << "Resetting game..." << std::endl;
+    SDL_Point startPos = calculateStartPosition();
 
-
-    int startX = (screenWidth / 2) - ((screenWidth / 2) % newSize);
-    int startY = (screenHeight / 2) - ((screenHeight / 2) % newSize);
-
-    snake = Snake(startX, startY, newSize, 5);
-    food.setSize(newSize);
+    snake = Snake(startPos.x, startPos.y, cellSize, Config::DEFAULT_SNAKE_LENGTH);
     food.generate(screenWidth, screenHeight, snake.getBody());
 
     score = 0;
     gameOver = false;
+    std::cout << "Game Reset Complete. Snake at (" << snake.getHeadPosition().x << ", " << snake.getHeadPosition().y << "), Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
 }
-
-

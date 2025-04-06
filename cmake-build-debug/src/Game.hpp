@@ -4,25 +4,36 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Renderer.hpp"
-
+#include <SDL.h>
+#include <string>
 
 class Game {
 public:
-    Game(int w, int h, int size);
+    Game(int screenWidth, int screenHeight, int cellSize);
+
     void handleInput(const SDL_Event& event);
     void update();
-    void render(const Renderer& renderer) const;
+    void render(Renderer& renderer) const;
+
     [[nodiscard]] bool isGameOver() const;
+    [[nodiscard]] int getScore() const { return score; }
+    [[nodiscard]] int getHighScore() const { return highScore; }
+
     void reset();
 
-
 private:
+    int screenWidth;
+    int screenHeight;
+    int cellSize;
+
     Snake snake;
     Food food;
-    int screenWidth, screenHeight;
+
     bool gameOver;
     int score;
-    int highScore{};
+    int highScore;
+
+    SDL_Point calculateStartPosition() const;
 };
 
 #endif

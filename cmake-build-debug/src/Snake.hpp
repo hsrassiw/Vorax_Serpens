@@ -8,23 +8,27 @@ class Snake {
 public:
     enum class Direction { UP, DOWN, LEFT, RIGHT };
 
-    Snake(int x, int y, int size, int initialLength);
+    Snake(int startX, int startY, int cellSize, int initialLength);
+
     void move();
     void draw(SDL_Renderer* renderer) const;
     void changeDirection(Direction newDirection);
-    [[nodiscard]] bool checkCollision(const SDL_Point& foodPos) const;
+    void grow();
+
+    [[nodiscard]] bool checkFoodCollision(const SDL_Point& foodPos) const;
     [[nodiscard]] bool checkSelfCollision() const;
     [[nodiscard]] bool checkWallCollision(int screenWidth, int screenHeight) const;
-    [[nodiscard]] std::vector<SDL_Point> getBody() const;
+
+    [[nodiscard]] const std::vector<SDL_Point>& getBody() const;
     [[nodiscard]] SDL_Point getHeadPosition() const;
-    void grow();
-    int getSize() const { return size; }
+    [[nodiscard]] int getSize() const { return cellSize; }
 
 
 private:
     std::vector<SDL_Point> body;
     Direction direction;
-    int size;
+    int cellSize;
+    bool directionChangedThisTick;
 };
 
 #endif
