@@ -34,10 +34,8 @@ Renderer::Renderer(Renderer&& other) noexcept
 Renderer& Renderer::operator=(Renderer&& other) noexcept {
     if (this != &other) {
         cleanup();
-
         sdlRenderer = other.sdlRenderer;
         font = other.font;
-
         other.sdlRenderer = nullptr;
         other.font = nullptr;
     }
@@ -93,11 +91,8 @@ void Renderer::renderText(const std::string& text, int x, int y, SDL_Color color
     }
 
     SDL_Rect renderQuad = {x, y, textSurface->w, textSurface->h};
-
     SDL_FreeSurface(textSurface);
-
     SDL_RenderCopy(sdlRenderer, textTexture, nullptr, &renderQuad);
-
     SDL_DestroyTexture(textTexture);
 }
 

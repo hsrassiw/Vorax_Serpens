@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 
     try {
         window = SDL_CreateWindow(
-                "Vorax Serpens Updated",
+                "Vorax Serpens - Timed Update",
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 Config::SCREEN_WIDTH,
@@ -36,15 +36,19 @@ int main(int argc, char* argv[]) {
         }
 
         renderer = new Renderer(window, Config::FONT_PATH, Config::FONT_SIZE);
-
         game = new Game(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, Config::CELL_SIZE);
 
         bool quit = false;
         SDL_Event event;
-        Uint32 lastUpdateTime = SDL_GetTicks();
-        const Uint32 frameDelay = 110;
+
+        Uint32 lastFrameTime = SDL_GetTicks();
+        Uint32 timeAccumulator = 0;
 
         while (!quit) {
+            Uint32 currentFrameTime = SDL_GetTicks();
+            Uint32 deltaTime = currentFrameTime - lastFrameTime;
+            lastFrameTime = currentFrameTime;
+
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
                     quit = true;
@@ -52,11 +56,25 @@ int main(int argc, char* argv[]) {
                 game->handleInput(event);
             }
 
-            game->update();
+            timeAccumulator += deltaTime;
+
+            Uint32 currentMoveInterval = game->getMoveInterval();
+
+            if (!game->isGameOver()) {
+                while (timeAccumulator >= currentMoveInterval) {
+                    game->update();
+                    timeAccumulator -= currentMoveInterval;
+
+                    currentMoveInterval = game->getMoveInterval();
+                    if (currentMoveInterval == 0) break;
+                }
+            } else {
+                timeAccumulator = 0;
+            }
 
             game->render(*renderer);
 
-            SDL_Delay(frameDelay);
+            SDL_Delay(1);
 
         }
 
@@ -67,12 +85,9 @@ int main(int argc, char* argv[]) {
     std::cout << "Cleaning up..." << std::endl;
     delete game;
     delete renderer;
-
     if (window) {
         SDL_DestroyWindow(window);
-        window = nullptr;
     }
-
     TTF_Quit();
     SDL_Quit();
     std::cout << "Cleanup complete. Exiting." << std::endl;

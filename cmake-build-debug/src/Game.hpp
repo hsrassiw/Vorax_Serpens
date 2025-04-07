@@ -18,6 +18,7 @@ public:
     [[nodiscard]] bool isGameOver() const;
     [[nodiscard]] int getScore() const { return score; }
     [[nodiscard]] int getHighScore() const { return highScore; }
+    [[nodiscard]] Uint32 getMoveInterval() const;
 
     void reset();
 
@@ -32,8 +33,10 @@ private:
     bool gameOver;
     int score;
     int highScore;
+    Uint32 moveInterval;
 
     SDL_Point calculateStartPosition() const;
+    void increaseSpeed();
 };
 
 #endif

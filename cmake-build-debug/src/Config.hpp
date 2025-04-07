@@ -12,7 +12,8 @@ namespace Config {
 
     constexpr int DEFAULT_SNAKE_LENGTH = 3;
     constexpr int INITIAL_SNAKE_SPEED_DELAY_MS = 150;
-    constexpr int SPEED_INCREMENT_MS = 5;
+    constexpr int SPEED_INCREMENT_MS = 4;
+    constexpr int MIN_MOVE_INTERVAL_MS = 50;
 
     constexpr SDL_Color SNAKE_COLOR = {0, 255, 0, 255};
     constexpr SDL_Color FOOD_COLOR = {255, 0, 0, 255};

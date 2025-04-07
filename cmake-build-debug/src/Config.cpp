@@ -15,7 +15,6 @@ namespace Config {
         } else if (event.type == SDL_KEYUP) {
 
         }
-
         return Controls::NONE;
     }
 

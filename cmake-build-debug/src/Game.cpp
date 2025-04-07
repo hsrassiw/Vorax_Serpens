@@ -3,6 +3,7 @@
 #include "Renderer.hpp"
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 Game::Game(int w, int h, int size)
         : screenWidth(w),
@@ -12,11 +13,11 @@ Game::Game(int w, int h, int size)
           food(size),
           gameOver(false),
           score(0),
-          highScore(0)
+          highScore(0),
+          moveInterval(Config::INITIAL_SNAKE_SPEED_DELAY_MS)
 {
     food.generate(screenWidth, screenHeight, snake.getBody());
-    std::cout << "Game Initialized. Snake at (" << snake.getHeadPosition().x << ", " << snake.getHeadPosition().y << ")" << std::endl;
-    std::cout << "Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
+    std::cout << "Game Initialized. Initial Move Interval: " << moveInterval << "ms" << std::endl;
 }
 
 SDL_Point Game::calculateStartPosition() const {
@@ -24,7 +25,6 @@ SDL_Point Game::calculateStartPosition() const {
     int startGridY = (screenHeight / cellSize) / 2;
     return {startGridX * cellSize, startGridY * cellSize};
 }
-
 
 void Game::handleInput(const SDL_Event& event) {
     Config::Controls control = Config::handleInput(event);
@@ -34,7 +34,6 @@ void Game::handleInput(const SDL_Event& event) {
     } else if (!gameOver && control != Config::Controls::NONE && control != Config::Controls::RESTART) {
         Snake::Direction newDir;
         bool directionChanged = true;
-
         switch (control) {
             case Config::Controls::UP:    newDir = Snake::Direction::UP; break;
             case Config::Controls::DOWN:  newDir = Snake::Direction::DOWN; break;
@@ -44,7 +43,6 @@ void Game::handleInput(const SDL_Event& event) {
                 directionChanged = false;
                 break;
         }
-
         if (directionChanged) {
             snake.changeDirection(newDir);
         }
@@ -59,11 +57,8 @@ void Game::update() {
     snake.move();
 
     if (snake.checkWallCollision(screenWidth, screenHeight)) {
-        std::cout << "Collision: Wall" << std::endl;
         gameOver = true;
-    }
-    else if (snake.checkSelfCollision()) {
-        std::cout << "Collision: Self" << std::endl;
+    } else if (snake.checkSelfCollision()) {
         gameOver = true;
     }
 
@@ -76,21 +71,18 @@ void Game::update() {
     }
 
     if (snake.checkFoodCollision(food.getPosition())) {
-        std::cout << "Collision: Food" << std::endl;
         score++;
         snake.grow();
         food.generate(screenWidth, screenHeight, snake.getBody());
-        std::cout << "Score: " << score << ", New Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
+        increaseSpeed();
+        std::cout << "Score: " << score << ". New Move Interval: " << moveInterval << "ms" << std::endl;
     }
 }
 
 void Game::render(Renderer& renderer) const {
     renderer.clear();
-
     food.draw(renderer.getSDLRenderer());
-
     snake.draw(renderer.getSDLRenderer());
-
     renderer.renderText("Score: " + std::to_string(score), 10, 10, Config::TEXT_COLOR);
     renderer.renderText("High Score: " + std::to_string(highScore), 10, 10 + Config::FONT_SIZE + 5, Config::TEXT_COLOR);
 
@@ -101,7 +93,6 @@ void Game::render(Renderer& renderer) const {
         int y = (screenHeight - textSize.y) / 2;
         renderer.renderText(gameOverText, x, y, Config::GAMEOVER_TEXT_COLOR);
     }
-
     renderer.present();
 }
 
@@ -109,14 +100,21 @@ bool Game::isGameOver() const {
     return gameOver;
 }
 
+void Game::increaseSpeed() {
+    moveInterval = std::max((int)Config::MIN_MOVE_INTERVAL_MS, (int)moveInterval - (int)Config::SPEED_INCREMENT_MS);
+}
+
+Uint32 Game::getMoveInterval() const {
+    return moveInterval;
+}
+
 void Game::reset() {
     std::cout << "Resetting game..." << std::endl;
     SDL_Point startPos = calculateStartPosition();
-
     snake = Snake(startPos.x, startPos.y, cellSize, Config::DEFAULT_SNAKE_LENGTH);
     food.generate(screenWidth, screenHeight, snake.getBody());
-
     score = 0;
     gameOver = false;
-    std::cout << "Game Reset Complete. Snake at (" << snake.getHeadPosition().x << ", " << snake.getHeadPosition().y << "), Food at (" << food.getPosition().x << ", " << food.getPosition().y << ")" << std::endl;
+    moveInterval = Config::INITIAL_SNAKE_SPEED_DELAY_MS;
+    std::cout << "Game Reset Complete. Move Interval: " << moveInterval << "ms" << std::endl;
 }

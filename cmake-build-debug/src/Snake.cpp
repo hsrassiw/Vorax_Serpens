@@ -22,9 +22,7 @@ void Snake::move() {
     }
 
     body.insert(body.begin(), newHead);
-
     body.pop_back();
-
     directionChangedThisTick = false;
 }
 
@@ -48,6 +46,7 @@ void Snake::changeDirection(Direction newDirection) {
         if (direction != newDirection) {
             direction = newDirection;
             changingDirection = true;
+
         }
     }
 }
