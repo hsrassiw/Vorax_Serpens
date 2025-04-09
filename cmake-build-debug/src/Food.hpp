@@ -4,18 +4,23 @@
 #include <SDL.h>
 #include <vector>
 #include <random>
+#include <deque>
 
-class Food {
-public:
-    explicit Food(int size);
-    void generate(int screenWidth, int screenHeight, const std::vector<SDL_Point>& snakeBody);
-    void draw(SDL_Renderer* renderer) const;
-    [[nodiscard]] SDL_Point getPosition() const;
+namespace SnakeGame {
 
-private:
-    SDL_Point position;
-    int size;
-    std::mt19937 rng;
-};
+    class Food {
+    public:
+        explicit Food(int cellSize);
+        void generate(int screenWidth, int screenHeight, const std::deque<SDL_Point>& snakeBody);
+        void draw(SDL_Renderer* renderer) const;
+        [[nodiscard]] SDL_Point getPosition() const;
+
+    private:
+        SDL_Point position;
+        int cellSize;
+        std::mt19937 rng;
+    };
+
+}
 
 #endif

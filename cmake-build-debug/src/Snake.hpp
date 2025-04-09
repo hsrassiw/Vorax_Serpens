@@ -1,34 +1,40 @@
 #ifndef SNAKE_HPP
 #define SNAKE_HPP
 
-#include <vector>
+#include <deque>
 #include <SDL.h>
+#include "Config.hpp"
 
-class Snake {
-public:
-    enum class Direction { UP, DOWN, LEFT, RIGHT };
+namespace SnakeGame {
 
-    Snake(int startX, int startY, int cellSize, int initialLength);
+    using Config::Direction;
 
-    void move();
-    void draw(SDL_Renderer* renderer) const;
-    void changeDirection(Direction newDirection);
-    void grow();
+    class Snake {
+    public:
+        Snake(int startX, int startY, int cellSize, int initialLength);
 
-    [[nodiscard]] bool checkFoodCollision(const SDL_Point& foodPos) const;
-    [[nodiscard]] bool checkSelfCollision() const;
-    [[nodiscard]] bool checkWallCollision(int screenWidth, int screenHeight) const;
+        void move();
+        void draw(SDL_Renderer* renderer) const;
+        void changeDirection(Direction newDirection);
+        void grow();
 
-    [[nodiscard]] const std::vector<SDL_Point>& getBody() const;
-    [[nodiscard]] SDL_Point getHeadPosition() const;
-    [[nodiscard]] int getSize() const { return cellSize; }
+        [[nodiscard]] bool checkFoodCollision(const SDL_Point& foodPos) const;
+        [[nodiscard]] bool checkSelfCollision() const;
+        [[nodiscard]] bool checkWallCollision(int screenWidth, int screenHeight) const;
 
+        [[nodiscard]] const std::deque<SDL_Point>& getBody() const;
+        [[nodiscard]] SDL_Point getHeadPosition() const;
+        [[nodiscard]] int getCellSize() const { return cellSize; }
+        [[nodiscard]] Direction getCurrentDirection() const;
 
-private:
-    std::vector<SDL_Point> body;
-    Direction direction;
-    int cellSize;
-    bool directionChangedThisTick;
-};
+    private:
+        std::deque<SDL_Point> body;
+        Direction currentDirection;
+        Direction nextDirection;
+        bool growing;
+        int cellSize;
+    };
+
+}
 
 #endif

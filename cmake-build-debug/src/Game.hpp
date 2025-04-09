@@ -4,39 +4,58 @@
 #include "Snake.hpp"
 #include "Food.hpp"
 #include "Renderer.hpp"
+#include "Config.hpp"
 #include <SDL.h>
 #include <string>
 
-class Game {
-public:
-    Game(int screenWidth, int screenHeight, int cellSize);
+namespace SnakeGame {
 
-    void handleInput(const SDL_Event& event);
-    void update();
-    void render(Renderer& renderer) const;
+    enum class GameState {
+        Playing,
+        Paused,
+        GameOver
+    };
 
-    [[nodiscard]] bool isGameOver() const;
-    [[nodiscard]] int getScore() const { return score; }
-    [[nodiscard]] int getHighScore() const { return highScore; }
-    [[nodiscard]] Uint32 getMoveInterval() const;
+    class Game {
+    public:
+        Game(int screenWidth, int screenHeight, int cellSize);
 
-    void reset();
+        void handleInput(const SDL_Event& event);
+        void update();
+        void render(Renderer& renderer) const;
+        void runFrame(float deltaTime);
 
-private:
-    int screenWidth;
-    int screenHeight;
-    int cellSize;
+        [[nodiscard]] bool isGameOver() const;
+        [[nodiscard]] bool isPaused() const;
+        [[nodiscard]] GameState getCurrentState() const;
+        [[nodiscard]] int getScore() const { return score; }
+        [[nodiscard]] int getHighScore() const { return highScore; }
 
-    Snake snake;
-    Food food;
+        void reset();
 
-    bool gameOver;
-    int score;
-    int highScore;
-    Uint32 moveInterval;
+    private:
+        int screenWidth;
+        int screenHeight;
+        int cellSize;
 
-    SDL_Point calculateStartPosition() const;
-    void increaseSpeed();
-};
+        Snake snake;
+        Food food;
+
+        GameState currentState;
+        int score;
+        int highScore;
+        Uint32 moveInterval;
+
+        float timeAccumulator;
+
+        SDL_Point calculateStartPosition() const;
+        void increaseSpeed();
+        void placeFood();
+
+        int loadHighScore();
+        void saveHighScore() const;
+    };
+
+}
 
 #endif

@@ -2,9 +2,13 @@
 #include <SDL_ttf.h>
 #include <iostream>
 #include <stdexcept>
+#include <memory>
+#include <algorithm>
 #include "Config.hpp"
 #include "Renderer.hpp"
 #include "Game.hpp"
+
+using namespace SnakeGame;
 
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -18,36 +22,42 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    SDL_Window* window = nullptr;
-    Renderer* renderer = nullptr;
-    Game* game = nullptr;
+    auto windowDeleter = [](SDL_Window* w){ if(w) SDL_DestroyWindow(w); };
+
+    std::unique_ptr<SDL_Window, decltype(windowDeleter)> window(nullptr, windowDeleter);
+    std::unique_ptr<Renderer> renderer = nullptr;
+    std::unique_ptr<Game> game = nullptr;
 
     try {
-        window = SDL_CreateWindow(
-                "Vorax Serpens - Timed Update",
+        window.reset(SDL_CreateWindow(
+                "Vorax Serpens Refactored FSM",
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 Config::SCREEN_WIDTH,
                 Config::SCREEN_HEIGHT,
                 SDL_WINDOW_SHOWN
-        );
+        ));
         if (!window) {
             throw std::runtime_error("Window could not be created! SDL_Error: " + std::string(SDL_GetError()));
         }
 
-        renderer = new Renderer(window, Config::FONT_PATH, Config::FONT_SIZE);
-        game = new Game(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, Config::CELL_SIZE);
+        renderer = std::make_unique<Renderer>(window.get(), Config::FONT_PATH, Config::FONT_SIZE);
+
+        game = std::make_unique<Game>(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT, Config::CELL_SIZE);
 
         bool quit = false;
         SDL_Event event;
 
-        Uint32 lastFrameTime = SDL_GetTicks();
-        Uint32 timeAccumulator = 0;
+        Uint64 lastFrameTicks = SDL_GetPerformanceCounter();
 
         while (!quit) {
-            Uint32 currentFrameTime = SDL_GetTicks();
-            Uint32 deltaTime = currentFrameTime - lastFrameTime;
-            lastFrameTime = currentFrameTime;
+            Uint64 currentFrameTicks = SDL_GetPerformanceCounter();
+            Uint64 frequency = SDL_GetPerformanceFrequency();
+            if (frequency == 0) {
+                frequency = 1;
+            }
+            float deltaTime = static_cast<float>(currentFrameTicks - lastFrameTicks) / frequency;
+            lastFrameTicks = currentFrameTicks;
 
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
@@ -56,38 +66,25 @@ int main(int argc, char* argv[]) {
                 game->handleInput(event);
             }
 
-            timeAccumulator += deltaTime;
-
-            Uint32 currentMoveInterval = game->getMoveInterval();
-
-            if (!game->isGameOver()) {
-                while (timeAccumulator >= currentMoveInterval) {
-                    game->update();
-                    timeAccumulator -= currentMoveInterval;
-
-                    currentMoveInterval = game->getMoveInterval();
-                    if (currentMoveInterval == 0) break;
-                }
-            } else {
-                timeAccumulator = 0;
-            }
+            game->runFrame(deltaTime);
 
             game->render(*renderer);
 
-            SDL_Delay(1);
-
         }
 
+    } catch (const RendererError& e) {
+        std::cerr << "Renderer Error: " << e.what() << std::endl;
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred." << std::endl;
     }
 
     std::cout << "Cleaning up..." << std::endl;
-    delete game;
-    delete renderer;
-    if (window) {
-        SDL_DestroyWindow(window);
-    }
+    game.reset();
+    renderer.reset();
+    window.reset();
+
     TTF_Quit();
     SDL_Quit();
     std::cout << "Cleanup complete. Exiting." << std::endl;
