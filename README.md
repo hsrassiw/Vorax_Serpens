@@ -41,4 +41,17 @@
 3. Chạy game bằng cách nhấn **Run** hoặc thực thi file `.exe` (Windows) / `./Vorax_Serpens ` (Linux/macOS)  
 ---
 
-✨ **Chúc bạn chơi game vui vẻ!** 🎮🔥
+## 🎨 Nguồn tài nguyên (Credits)
+
+Dự án này sử dụng các tài nguyên từ bên thứ ba. Dưới đây là thông tin về các nguồn tài nguyên:
+
+- **Âm thanh**
+   - Âm thanh khi ăn từ [freesound.org](https://freesound.org), được tạo bởi [MSH443PL8](https://freesound.org/people/MSH443PL8/sounds/796125/) – sử dụng theo giấy phép [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
+- **Hình ảnh / Sprite**
+   - Một số hình ảnh pixel được tạo bằng công cụ AI [PixelLab.ai](https://www.pixellab.ai/editor)
+   - Ảnh nền không gian được tạo bằng [Space Background Generator](https://deep-fold.itch.io/space-background-generator) của Deep-Fold – tài nguyên miễn phí từ [Itch.io](https://itch.io/)
+
+- **Phông chữ**
+   - Arial – phông hệ thống có sẵn trên Windows
+
