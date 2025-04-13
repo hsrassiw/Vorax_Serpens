@@ -12,7 +12,7 @@ namespace SnakeGame {
     public:
         explicit Food(int cellSize);
         void generate(int screenWidth, int screenHeight, const std::deque<SDL_Point>& snakeBody);
-        void draw(SDL_Renderer* renderer) const;
+//        void draw(SDL_Renderer* renderer) const;
         [[nodiscard]] SDL_Point getPosition() const;
 
     private:

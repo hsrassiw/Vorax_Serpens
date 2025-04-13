@@ -6,6 +6,7 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <vector>
 
 namespace SnakeGame {
 
@@ -25,14 +26,18 @@ namespace SnakeGame {
         Renderer& operator=(Renderer&&) noexcept = default;
 
         [[nodiscard]] SDL_Renderer* getSDLRenderer() const;
+        [[nodiscard]] SDL_Texture* loadTexture(const std::string& path) const;
 
         void clear() const;
         void present() const;
 
+        void drawTexture(SDL_Texture* texture, const SDL_Rect* destRect) const;
+        void drawTexturePortion(SDL_Texture* texture, const SDL_Rect* srcRect, const SDL_Rect* destRect) const;
+        void drawRect(const SDL_Rect* rect, SDL_Color color, bool filled = false) const;
+        void drawRects(const std::vector<SDL_Rect>& rects, SDL_Color color, bool filled = false) const;
+
         void renderUI(int score, int highScore, int scoreX, int scoreY, int hsX, int hsY, SDL_Color textColor);
-
         void renderCenteredText(const std::string& text, int screenWidth, int screenHeight, SDL_Color color) const;
-
         [[nodiscard]] SDL_Point getTextSize(const std::string& text) const;
 
     private:

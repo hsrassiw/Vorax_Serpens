@@ -49,7 +49,6 @@ namespace SnakeGame {
                 std::cerr << "Warning: Could not find a valid food position after "
                           << maxAttempts << " attempts. Snake length: "
                           << snakeBody.size() << "/" << gridArea << "." << std::endl;
-
                 bool originOccupied = false;
                 for(const auto& segment : snakeBody) {
                     if(segment.x == 0 && segment.y == 0) {
@@ -72,12 +71,12 @@ namespace SnakeGame {
         position.y = potentialY;
     }
 
-    void Food::draw(SDL_Renderer* renderer) const {
-        if (!renderer) return;
-        SDL_SetRenderDrawColor(renderer, Config::FOOD_COLOR.r, Config::FOOD_COLOR.g, Config::FOOD_COLOR.b, Config::FOOD_COLOR.a);
-        SDL_Rect rect = {position.x, position.y, cellSize, cellSize};
-        SDL_RenderFillRect(renderer, &rect);
-    }
+//    void Food::draw(SDL_Renderer* renderer) const {
+//        if (!renderer) return;
+//        SDL_SetRenderDrawColor(renderer, Config::FOOD_COLOR.r, Config::FOOD_COLOR.g, Config::FOOD_COLOR.b, Config::FOOD_COLOR.a);
+//        SDL_Rect rect = {position.x, position.y, cellSize, cellSize};
+//        SDL_RenderFillRect(renderer, &rect);
+//    }
 
     SDL_Point Food::getPosition() const {
         return position;

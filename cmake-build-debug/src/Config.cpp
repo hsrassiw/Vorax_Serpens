@@ -20,8 +20,13 @@ namespace SnakeGame {
                         return ControlInput::RIGHT;
                     case SDLK_SPACE:
                         return ControlInput::RESTART;
+                    case SDLK_RETURN:
+                    case SDLK_KP_ENTER:
+                        return ControlInput::CONFIRM;
                     case SDLK_p:
                         return ControlInput::PAUSE;
+                    case SDLK_ESCAPE:
+                        return ControlInput::NONE;
                     default:
                         return ControlInput::NONE;
                 }
