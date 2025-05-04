@@ -5,62 +5,57 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_definitions(-DSDL_MAIN_HANDLED)
 
-# ===============================
-# Đường dẫn tuyệt đối tới thư viện SDL2
-# ===============================
-set(SDL2_DIR "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2")
-set(SDL2_IMAGE_DIR "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image")
-set(SDL2_MIXER_DIR "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer")
-set(SDL2_TTF_DIR "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf")
 
-# ===============================
-# Tìm và liên kết SDL2
-# ===============================
-#find_package(SDL2 REQUIRED CONFIG PATHS ${SDL2_DIR})
-#find_package(SDL2_image REQUIRED CONFIG PATHS ${SDL2_IMAGE_DIR})
-#find_package(SDL2_mixer REQUIRED CONFIG PATHS ${SDL2_MIXER_DIR})
-#find_package(SDL2_ttf REQUIRED CONFIG PATHS ${SDL2_TTF_DIR})
+set(SDL2_BASE_DIR "${CMAKE_SOURCE_DIR}/libs") # Hoặc đường dẫn tuyệt đối nếu muốn
 
-# ===============================
+set(SDL2_DIR "${SDL2_BASE_DIR}/SDL2")
+set(SDL2_IMAGE_DIR "${SDL2_BASE_DIR}/SDL2_image")
+set(SDL2_MIXER_DIR "${SDL2_BASE_DIR}/SDL2_mixer")
+set(SDL2_TTF_DIR "${SDL2_BASE_DIR}/SDL2_ttf")
+
+
 # Tự động lấy tất cả file .cpp trong src/
-# ===============================
-file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
-# Tạo executable
-add_executable(Vorax_Serpens ${SRC_FILES}
+set(SRC_FILES
         src/main.cpp
         src/Game.cpp
-        src/Game.hpp
         src/Snake.cpp
-        src/Snake.hpp
         src/Food.cpp
-        src/Food.hpp
         src/Renderer.cpp
-        src/Renderer.hpp
         src/Config.cpp
-        src/Config.hpp
 )
+# Header không cần liệt kê ở đây, CMake sẽ tự tìm dependency
 
-# ===============================
-# Thêm đường dẫn include SDL2
-# ===============================
+# Tạo executable
+add_executable(Vorax_Serpens ${SRC_FILES})
+
+
 target_include_directories(Vorax_Serpens PRIVATE
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/include/SDL2"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/include/SDL2"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/include/SDL2"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/include/SDL2"
+        "${SDL2_DIR}/x86_64-w64-mingw32/include/SDL2"
+        "${SDL2_IMAGE_DIR}/x86_64-w64-mingw32/include/SDL2"
+        "${SDL2_MIXER_DIR}/x86_64-w64-mingw32/include/SDL2"
+        "${SDL2_TTF_DIR}/x86_64-w64-mingw32/include/SDL2"
 )
 
-# ===============================
-# Liên kết thư viện SDL2
-# ===============================
+
 target_link_directories(Vorax_Serpens PRIVATE
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2/x86_64-w64-mingw32/lib"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_image/x86_64-w64-mingw32/lib"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_mixer/x86_64-w64-mingw32/lib"
-        "D:/Clion/Vorax_Serpens/cmake-build-debug/SDL2_ttf/x86_64-w64-mingw32/lib"
+        "${SDL2_DIR}/x86_64-w64-mingw32/lib"
+        "${SDL2_IMAGE_DIR}/x86_64-w64-mingw32/lib"
+        "${SDL2_MIXER_DIR}/x86_64-w64-mingw32/lib"
+        "${SDL2_TTF_DIR}/x86_64-w64-mingw32/lib"
 )
 
+# Liên kết thư viện SDL2
 target_link_libraries(Vorax_Serpens PRIVATE
+        mingw32
+        SDL2main
         SDL2 SDL2_image SDL2_mixer SDL2_ttf
 )
+
+
+set(ASSET_SOURCE_DIR ${CMAKE_SOURCE_DIR}/assets)
+set(ASSET_DESTINATION_DIR ${CMAKE_BINARY_DIR}/assets)
+
+# Lệnh copy đơn giản - chạy mỗi khi CMake cấu hình
+file(COPY ${ASSET_SOURCE_DIR} DESTINATION ${CMAKE_BINARY_DIR})
+
