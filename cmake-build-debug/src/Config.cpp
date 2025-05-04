@@ -2,8 +2,7 @@
 
 namespace SnakeGame {
     namespace Config {
-
-        ControlInput handleRawInput(const SDL_Event& event) {
+        ControlInput handleRawInput(const SDL_Event &event) {
             if (event.type == SDL_KEYDOWN) {
                 switch (event.key.keysym.sym) {
                     case SDLK_w:
@@ -26,11 +25,12 @@ namespace SnakeGame {
                     case SDLK_p:
                         return ControlInput::PAUSE;
                     case SDLK_ESCAPE:
-                        return ControlInput::NONE;
+                        return ControlInput::NONE; // ESC được xử lý riêng trong Game::handleEscapeKey
                     default:
                         return ControlInput::NONE;
                 }
             }
+            // Bỏ qua các loại sự kiện khác (ví dụ: key up, mouse motion...)
             return ControlInput::NONE;
         }
 

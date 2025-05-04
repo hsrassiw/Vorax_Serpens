@@ -1,66 +1,102 @@
 #include "Snake.hpp"
 #include "Config.hpp"
-#include <iostream>
+#include <vector>
+#include <algorithm>
 
 namespace SnakeGame {
 
     Snake::Snake(int startX, int startY, int size, int initialLength)
             : currentDirection(Direction::RIGHT),
-              nextDirection(Direction::RIGHT),
-              cellSize(size),
-              growing(false)
+              growing(false),
+              cellSize(size)
     {
+        if (initialLength < 1) initialLength = 1;
         for (int i = 0; i < initialLength; ++i) {
             body.push_back({startX - i * cellSize, startY});
         }
-        if (body.empty()) {
-            body.push_back({startX, startY});
+        inputBuffer.reserve(Config::SNAKE_INPUT_BUFFER_SIZE);
+    }
+
+    bool Snake::isOppositeDirection(Direction dir1, Direction dir2) const {
+        return (dir1 == Direction::UP && dir2 == Direction::DOWN) ||
+               (dir1 == Direction::DOWN && dir2 == Direction::UP) ||
+               (dir1 == Direction::LEFT && dir2 == Direction::RIGHT) ||
+               (dir1 == Direction::RIGHT && dir2 == Direction::LEFT);
+    }
+
+    void Snake::processAndApplyInputBuffer() {
+        if (!inputBuffer.empty()) {
+            Direction nextDir = inputBuffer.front();
+            inputBuffer.erase(inputBuffer.begin());
+            if (!isOppositeDirection(currentDirection, nextDir)) {
+                currentDirection = nextDir;
+            }
         }
     }
 
-    void Snake::move() {
+    void Snake::move(const SDL_Point& nextHead) {
         if (body.empty()) return;
-
-        bool isOpposite = false;
-        if ((currentDirection == Direction::UP && nextDirection == Direction::DOWN) ||
-            (currentDirection == Direction::DOWN && nextDirection == Direction::UP) ||
-            (currentDirection == Direction::LEFT && nextDirection == Direction::RIGHT) ||
-            (currentDirection == Direction::RIGHT && nextDirection == Direction::LEFT)) {
-            isOpposite = true;
-        }
-
-        if (!isOpposite) {
-            currentDirection = nextDirection;
-        }
-
-        SDL_Point newHead = body.front();
-        switch (currentDirection) {
-            case Direction::UP:    newHead.y -= cellSize; break;
-            case Direction::DOWN:  newHead.y += cellSize; break;
-            case Direction::LEFT:  newHead.x -= cellSize; break;
-            case Direction::RIGHT: newHead.x += cellSize; break;
-        }
-
-        body.push_front(newHead);
-
+        body.push_front(nextHead);
         if (growing) {
             growing = false;
         } else {
-            body.pop_back();
+            if (!body.empty()) {
+                body.pop_back();
+            }
         }
     }
 
     void Snake::draw(SDL_Renderer* renderer) const {
-        if (!renderer) return;
-        SDL_SetRenderDrawColor(renderer, Config::SNAKE_COLOR.r, Config::SNAKE_COLOR.g, Config::SNAKE_COLOR.b, Config::SNAKE_COLOR.a);
-        for (const auto& segment : body) {
-            SDL_Rect rect = {segment.x, segment.y, cellSize, cellSize};
-            SDL_RenderFillRect(renderer, &rect);
+        if (!renderer || body.empty()) return;
+        const SDL_Point& headPos = body.front();
+        SDL_Rect headRect = { headPos.x, headPos.y, cellSize, cellSize }; // Tạo hình chữ nhật cho đầu
+        SDL_SetRenderDrawColor(renderer, Config::SNAKE_HEAD_COLOR.r, Config::SNAKE_HEAD_COLOR.g, Config::SNAKE_HEAD_COLOR.b, Config::SNAKE_HEAD_COLOR.a);
+        // Vẽ hình chữ nhật đặc cho đầu rắn
+        SDL_RenderFillRect(renderer, &headRect);
+        if (body.size() > 1) {
+            std::vector<SDL_Rect> bodyRects;
+            bodyRects.reserve(body.size() - 1);
+            for (size_t i = 1; i < body.size(); ++i) {
+                const SDL_Point& segmentPos = body[i];
+                bodyRects.push_back({ segmentPos.x, segmentPos.y, cellSize, cellSize });
+            }
+
+            SDL_SetRenderDrawColor(renderer, Config::SNAKE_COLOR.r, Config::SNAKE_COLOR.g, Config::SNAKE_COLOR.b, Config::SNAKE_COLOR.a);
+            SDL_RenderFillRects(renderer, bodyRects.data(), static_cast<int>(bodyRects.size()));
         }
     }
 
-    void Snake::changeDirection(Direction newDirection) {
-        nextDirection = newDirection;
+    void Snake::queueDirectionChange(Direction newDirection) {
+        Direction lastEffectiveDirection = inputBuffer.empty() ? currentDirection : inputBuffer.back();
+        if (inputBuffer.size() < Config::SNAKE_INPUT_BUFFER_SIZE &&
+            !isOppositeDirection(lastEffectiveDirection, newDirection) &&
+            newDirection != lastEffectiveDirection)
+        {
+            inputBuffer.push_back(newDirection);
+        }
+    }
+
+    void Snake::grow() {
+        growing = true;
+    }
+
+    void Snake::shrink() {
+        if (body.size() > 1) {
+            body.pop_back();
+        }
+    }
+
+    SDL_Point Snake::calculateNextHeadPosition() {
+        if (body.empty()) return {-1, -1};
+        processAndApplyInputBuffer();
+        SDL_Point nextHead = body.front();
+        switch (currentDirection) {
+            case Direction::UP:    nextHead.y -= cellSize; break;
+            case Direction::DOWN:  nextHead.y += cellSize; break;
+            case Direction::LEFT:  nextHead.x -= cellSize; break;
+            case Direction::RIGHT: nextHead.x += cellSize; break;
+        }
+        return nextHead;
     }
 
     bool Snake::checkFoodCollision(const SDL_Point& foodPos) const {
@@ -70,7 +106,6 @@ namespace SnakeGame {
 
     bool Snake::checkSelfCollision() const {
         if (body.size() < 2) return false;
-
         const SDL_Point& head = body.front();
         for (size_t i = 1; i < body.size(); ++i) {
             if (head.x == body[i].x && head.y == body[i].y) {
@@ -80,14 +115,18 @@ namespace SnakeGame {
         return false;
     }
 
-    bool Snake::checkWallCollision(int screenWidth, int screenHeight) const {
+    bool Snake::checkSelfCollisionWithNext(const SDL_Point& nextHead) const {
         if (body.empty()) return false;
-        const SDL_Point& head = body.front();
-        return (head.x < 0 || head.x >= screenWidth || head.y < 0 || head.y >= screenHeight);
-    }
-
-    void Snake::grow() {
-        growing = true;
+        size_t checkLimit = body.size();
+        if (!growing && body.size() > 1) {
+            checkLimit = body.size() - 1;
+        }
+        for (size_t i = 0; i < checkLimit; ++i) {
+            if (nextHead.x == body[i].x && nextHead.y == body[i].y) {
+                return true;
+            }
+        }
+        return false;
     }
 
     const std::deque<SDL_Point>& Snake::getBody() const {
