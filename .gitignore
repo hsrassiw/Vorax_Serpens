@@ -1,0 +1,38 @@
+cmake-build-debug/
+cmake-build-release/ # Nếu bạn có cấu hình Release
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+
+.idea/
+
+# === Executables ===
+*.exe
+*.out
+*.app
+
+# === Libraries (Static & Dynamic) ===
+*.a
+*.lib
+*.dll
+*.dylib
+*.so
+
+# === Object Files ===
+*.o
+*.obj
+*.slo
+
+# === Log Files ===
+*.log
+
+# === OS Specific Files ===
+.DS_Store
+Thumbs.db
+
+
+/libs/
