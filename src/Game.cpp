@@ -510,7 +510,6 @@ namespace SnakeGame {
             timeAccumulator -= timeStep;
 
             if (isBoosting && (score <= 0 || snake.getBody().size() <= Config::MIN_BOOST_LENGTH)) {
-                // PlaySoundEffect(boostEndSound.get(), soundEnabled); // Bỏ âm thanh dừng boost
                 isBoosting = false;
                 boostCostTimer = 0.0f;
                 boostCostCycles = 0;
@@ -534,7 +533,6 @@ namespace SnakeGame {
             if (!isBoosting) {
                 isBoosting = true; boostCostTimer = 0.0f; boostCostCycles = 0;
                 std::cout << "Boost started." << std::endl;
-                // PlaySoundEffect(boostStartSound.get(), soundEnabled); // Bỏ âm thanh bắt đầu boost
             }
 
             boostCostTimer += deltaTime;
@@ -552,7 +550,6 @@ namespace SnakeGame {
                         boostCostCycles = 0;
                         if (snake.getBody().size() > Config::MIN_BOOST_LENGTH) {
                             snake.shrink();
-                            // PlaySoundEffect(shrinkSound.get(), soundEnabled); // Bỏ âm thanh shrink
                             std::cout << "Shrunk due to boost. New length: " << snake.getBody().size() << std::endl;
                         } else {
                             // PlaySoundEffect(boostEndSound.get(), soundEnabled); // Bỏ âm thanh dừng boost
@@ -693,8 +690,9 @@ namespace SnakeGame {
             currentRect.x = (screenWidth - currentRect.w) / 2; currentRect.y = startY + i * y_offset;
             renderer.renderText(displayText, currentRect.x, currentRect.y, color);
         }
-        renderer.renderCenteredText("Use UP/DOWN/Click to navigate, ENTER/LEFT/RIGHT/Click to change/select", screenWidth, screenHeight - Config::FONT_SIZE * 4, Config::TEXT_COLOR);
-        renderer.renderCenteredText("Press ESC to return to Main Menu", screenWidth, screenHeight - Config::FONT_SIZE * 3, Config::TEXT_COLOR);
+        renderer.renderCenteredText("Controls: W/A/S/D or Arrows to Move. Eat food to Grow.", screenWidth, screenHeight - Config::FONT_SIZE * 6, Config::TEXT_COLOR);
+        renderer.renderCenteredText("Objective: Avoid walls (Classic), obstacles, and self. Survive!", screenWidth, screenHeight - Config::FONT_SIZE * 5, Config::TEXT_COLOR);
+        renderer.renderCenteredText("Boost: Hold Shift (costs score & length). Pause: P key.", screenWidth, screenHeight - Config::FONT_SIZE * 4, Config::TEXT_COLOR);
     }
 
     void Game::renderGameScreen(Renderer& renderer) const {
